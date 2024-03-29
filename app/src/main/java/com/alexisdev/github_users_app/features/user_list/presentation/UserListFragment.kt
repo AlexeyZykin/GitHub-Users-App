@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.alexisdev.github_users_app.R
@@ -37,7 +38,8 @@ class UserListFragment : Fragment() {
         adapter = UserListAdapter(
             object : UserListAdapter.ClickListener {
                 override fun onClickUser(userUi: UserUi) {
-                    //Navigation
+                    val action = UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(userUi.login)
+                    findNavController().navigate(action)
                 }
             }
         )

@@ -6,9 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".app.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <include
         layout="@layout/content_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

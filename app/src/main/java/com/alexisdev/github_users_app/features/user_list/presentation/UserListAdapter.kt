@@ -12,9 +12,10 @@ class UserListAdapter(private val clickListener: ClickListener): RecyclerView.Ad
     private val list = mutableListOf<UserUi>()
 
     class UserListViewHolder(private val binding: UserItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(userUi: UserUi) {
+        fun bind(userUi: UserUi, clickListener: ClickListener) {
             binding.tvUserLoginListItem.text = userUi.login
             binding.tvUserIdListItem.text = "Id: ${userUi.id}"
+            binding.cardUser.setOnClickListener { clickListener.onClickUser(userUi) }
             Glide
                 .with(binding.imgUserAvatarListItem.context)
                 .load(userUi.avatarUrl)
@@ -31,7 +32,7 @@ class UserListAdapter(private val clickListener: ClickListener): RecyclerView.Ad
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], clickListener)
     }
 
     override fun map(source: List<UserUi>) {
