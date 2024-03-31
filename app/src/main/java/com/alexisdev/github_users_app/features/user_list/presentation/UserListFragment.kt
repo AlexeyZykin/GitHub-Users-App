@@ -34,6 +34,7 @@ class UserListFragment : Fragment() {
         viewModel.fetchUsers()
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.fetchUsers()
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 
