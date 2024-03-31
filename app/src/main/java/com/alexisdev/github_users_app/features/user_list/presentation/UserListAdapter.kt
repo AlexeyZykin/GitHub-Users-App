@@ -2,16 +2,17 @@ package com.alexisdev.github_users_app.features.user_list.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.alexisdev.github_users_app.core.Mapper
 import com.alexisdev.github_users_app.databinding.UserItemBinding
 import com.bumptech.glide.Glide
 
-class UserListAdapter(private val clickListener: ClickListener): RecyclerView.Adapter<UserListAdapter.UserListViewHolder>(), Mapper<List<UserUi>> {
+class UserListAdapter(private val clickListener: ClickListener) :
+    PagingDataAdapter<UserUi, UserListAdapter.UserListViewHolder>(UserComparator) {
 
-    private val list = mutableListOf<UserUi>()
-
-    class UserListViewHolder(private val binding: UserItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class UserListViewHolder(private val binding: UserItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(userUi: UserUi, clickListener: ClickListener) {
             binding.tvUserLoginListItem.text = userUi.login
             binding.tvUserIdListItem.text = "Id: ${userUi.id}"
@@ -29,38 +30,23 @@ class UserListAdapter(private val clickListener: ClickListener): RecyclerView.Ad
         return UserListViewHolder(binding)
     }
 
-    override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
-        holder.bind(list[position], clickListener)
-    }
-
-    override fun map(source: List<UserUi>) {
-        val diff = DiffUtil(list, source)
-        val result = androidx.recyclerview.widget.DiffUtil.calculateDiff(diff)
-        list.clear()
-        list.addAll(source)
-        result.dispatchUpdatesTo(this)
+        val user = getItem(position)
+        if (user != null) holder.bind(user, clickListener)
     }
 
     interface ClickListener {
         fun onClickUser(userUi: UserUi)
     }
 
-    class DiffUtil(
-        private val oldList: List<UserUi>,
-        private val newList: List<UserUi>
-    ) : androidx.recyclerview.widget.DiffUtil.Callback() {
-        override fun getOldListSize() = oldList.size
-
-        override fun getNewListSize() = newList.size
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
+    object UserComparator : DiffUtil.ItemCallback<UserUi>() {
+        override fun areItemsTheSame(oldItem: UserUi, newItem: UserUi): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
+        override fun areContentsTheSame(oldItem: UserUi, newItem: UserUi): Boolean {
+            return oldItem == newItem
         }
     }
 }

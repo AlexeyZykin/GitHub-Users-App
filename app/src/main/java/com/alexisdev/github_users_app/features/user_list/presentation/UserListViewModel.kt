@@ -1,38 +1,35 @@
 package com.alexisdev.github_users_app.features.user_list.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.map
+import androidx.paging.rxjava3.cachedIn
 import com.alexisdev.github_users_app.features.user_list.domain.FetchUsersUseCase
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 class UserListViewModel(private val fetchUsersUseCase: FetchUsersUseCase) : ViewModel() {
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
-    private val _users = MutableLiveData<UserListUiState<List<UserUi>>>()
-    val users: LiveData<UserListUiState<List<UserUi>>> get() = _users
+    private val _users = MutableLiveData<PagingData<UserUi>>()
+    val users: LiveData<PagingData<UserUi>> get() = _users
 
-    init {
-        fetchUsers()
-    }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun fetchUsers() {
-        compositeDisposable.add(
             fetchUsersUseCase.invoke()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    _users.postValue(UserListUiState.Success(
-                        it.map { it.toUserUi() }
-                    ))
-                },
-                    {
-                        _users.postValue(UserListUiState.Error(it.message))
-                    }
-                )
-        )
+                .cachedIn(viewModelScope)
+                .subscribe { pagingData ->
+                    _users.postValue(
+                        pagingData.map { it.toUserUi() }
+                    )
+                }
+                .let { compositeDisposable.add(it) }
+
+
 
     }
 

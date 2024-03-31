@@ -1,15 +1,14 @@
 package com.alexisdev.github_users_app.features.user_list.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.alexisdev.github_users_app.R
 import com.alexisdev.github_users_app.databinding.FragmentUserListBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,6 +31,11 @@ class UserListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         subscribeObserver()
+        viewModel.fetchUsers()
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.fetchUsers()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun initRecyclerView() {
@@ -49,17 +53,7 @@ class UserListFragment : Fragment() {
 
     private fun subscribeObserver() {
         viewModel.users.observe(viewLifecycleOwner) {
-            when (it) {
-                is UserListUiState.Success -> {
-                    it.data?.let { it1 -> adapter.map(it1) }
-                }
-
-                is UserListUiState.Error ->
-                    Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
-
-                is UserListUiState.Loading -> {}
-            }
+           adapter.submitData(lifecycle, it)
         }
     }
-
 }

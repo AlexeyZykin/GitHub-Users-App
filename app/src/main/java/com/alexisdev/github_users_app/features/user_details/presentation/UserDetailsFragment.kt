@@ -41,13 +41,14 @@ class UserDetailsFragment : Fragment() {
         viewModel.userDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is UserDetailsUiState.Success -> {
+                    showProgress(false)
                     if (it.data != null) showUserDetails(it.data)
                 }
 
                 is UserDetailsUiState.Error ->
                     Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
 
-                is UserDetailsUiState.Loading -> {}
+                is UserDetailsUiState.Loading -> { showProgress(true) }
             }
         }
     }
@@ -68,5 +69,10 @@ class UserDetailsFragment : Fragment() {
             if (userDetailsUi.company != null) tvCompany.text = userDetailsUi.company
             tvCreatedAt.text = DateConverter.convertDateToString(userDetailsUi.createdAt)
         }
+    }
+
+    private fun showProgress(isShow: Boolean) {
+        if (isShow) binding.progressBar.visibility = View.VISIBLE
+        else binding.progressBar.visibility = View.GONE
     }
 }

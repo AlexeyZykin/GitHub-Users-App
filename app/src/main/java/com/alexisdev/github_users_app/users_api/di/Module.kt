@@ -1,6 +1,5 @@
 package com.alexisdev.github_users_app.users_api.di
 
-import com.alexisdev.github_users_app.core.Constants
 import com.alexisdev.github_users_app.users_api.GitHubUsersApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +17,7 @@ val usersApiModule = module {
 
 private fun provideRetrofit(client: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        .baseUrl(Constants.GITHUB_USERS_API_BASE_URL)
+        .baseUrl(GitHubUsersApi.BASE_URL)
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)

@@ -20,6 +20,7 @@ class UserDetailsViewModel(
     fun fetchUserDetails(username: String) {
         compositeDisposable.add(
             fetchUserDetailsUseCase.invoke(username)
+                .doOnSubscribe{ _userDetails.postValue(UserDetailsUiState.Loading()) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

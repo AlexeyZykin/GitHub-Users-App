@@ -16,4 +16,6 @@
     <dimen name="text_headline_medium">28sp</dimen>
     <dimen name="text_headline_large">32sp</dimen>
     <dimen name="card_corner_medium_radius">16dp</dimen>
+    <dimen name="progress_bar_size">55dp</dimen>
+    <dimen name="standard_elevation">8dp</dimen>
 </resources>

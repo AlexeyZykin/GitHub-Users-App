@@ -1,5 +1,6 @@
 package com.alexisdev.github_users_app.features.user_details.data
 
+import com.alexisdev.github_users_app.core.Response
 import com.alexisdev.github_users_app.features.user_details.domain.UserDetails
 import com.alexisdev.github_users_app.features.user_details.domain.UserDetailsRepository
 import com.alexisdev.github_users_app.users_api.GitHubUsersApi

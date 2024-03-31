@@ -59,6 +59,8 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-rxjava3:2.6.1")
+    implementation("androidx.room:room-paging:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -67,4 +69,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-rxjava3:3.2.1")
+
 }
