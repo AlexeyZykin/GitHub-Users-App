@@ -1,6 +1,5 @@
 package com.alexisdev.github_users_app.features.user_list.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,17 +19,14 @@ class UserListViewModel(private val fetchUsersUseCase: FetchUsersUseCase) : View
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun fetchUsers() {
-            fetchUsersUseCase.invoke()
-                .cachedIn(viewModelScope)
-                .subscribe { pagingData ->
-                    _users.postValue(
-                        pagingData.map { it.toUserUi() }
-                    )
-                }
-                .let { compositeDisposable.add(it) }
-
-
-
+        fetchUsersUseCase.invoke()
+            .cachedIn(viewModelScope)
+            .subscribe { pagingData ->
+                _users.postValue(
+                    pagingData.map { it.toUserUi() }
+                )
+            }
+            .let { compositeDisposable.add(it) }
     }
 
     override fun onCleared() {

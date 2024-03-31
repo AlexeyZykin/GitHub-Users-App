@@ -8,4 +8,5 @@
     <string name="email">Email:</string>
     <string name="company">Company:</string>
     <string name="created_at">Created at:</string>
+    <string name="error_msg">Error!</string>
 </resources>

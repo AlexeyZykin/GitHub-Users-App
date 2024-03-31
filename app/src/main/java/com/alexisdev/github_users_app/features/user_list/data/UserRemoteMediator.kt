@@ -57,7 +57,7 @@ class UserRemoteMediator(
                 MediatorResult.Success(endOfPaginationReached = response.isEmpty()) as MediatorResult
             }
             .onErrorResumeNext { e ->
-                if (e is IOException) {
+                if (e is Exception) {
                     Single.just(MediatorResult.Error(e))
                 } else {
                     Single.error(e)

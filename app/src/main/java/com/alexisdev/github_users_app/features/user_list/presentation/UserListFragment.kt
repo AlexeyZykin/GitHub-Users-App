@@ -34,7 +34,6 @@ class UserListFragment : Fragment() {
         viewModel.fetchUsers()
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.fetchUsers()
-            binding.swipeRefresh.isRefreshing = false
         }
     }
 
@@ -48,7 +47,10 @@ class UserListFragment : Fragment() {
             }
         )
         binding.rvUserList.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvUserList.adapter = adapter
+        binding.rvUserList.adapter = adapter.withLoadStateHeaderAndFooter(
+            UserListLoadStateAdapter(),
+            UserListLoadStateAdapter()
+        )
     }
 
     private fun subscribeObserver() {
