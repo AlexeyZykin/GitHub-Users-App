@@ -17,6 +17,10 @@ class UserListViewModel(private val fetchUsersUseCase: FetchUsersUseCase) : View
     private val _users = MutableLiveData<PagingData<UserUi>>()
     val users: LiveData<PagingData<UserUi>> get() = _users
 
+    init {
+        fetchUsers()
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun fetchUsers() {
         fetchUsersUseCase.invoke()

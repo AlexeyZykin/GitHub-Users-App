@@ -31,7 +31,6 @@ class UserListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         subscribeObserver()
-        viewModel.fetchUsers()
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.fetchUsers()
             binding.swipeRefresh.isRefreshing = false

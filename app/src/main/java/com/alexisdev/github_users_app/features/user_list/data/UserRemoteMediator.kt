@@ -31,7 +31,7 @@ class UserRemoteMediator(
         state: PagingState<Int, UserDBO>
     ): Single<MediatorResult> {
         val loadKey = when (loadType) {
-            LoadType.REFRESH -> 1
+            LoadType.REFRESH -> 0
             LoadType.PREPEND -> {
                 return Single.just(MediatorResult.Success(true))
             }

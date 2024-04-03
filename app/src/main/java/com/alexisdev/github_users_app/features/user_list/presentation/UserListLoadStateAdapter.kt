@@ -46,6 +46,7 @@ class UserListLoadStateAdapter() : LoadStateAdapter<UserListLoadStateAdapter.Ite
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ItemViewHolder {
         return when (loadState) {
             is LoadState.NotLoading -> error("not loading")
+
             is LoadState.Loading -> ProgressViewHolder(
                 ProgressItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
@@ -61,8 +62,10 @@ class UserListLoadStateAdapter() : LoadStateAdapter<UserListLoadStateAdapter.Ite
     }
 
     override fun getStateViewType(loadState: LoadState) = when (loadState) {
-        is LoadState.NotLoading -> error("not loading")
+        is LoadState.NotLoading -> error("not loading"
+        )
         is LoadState.Loading -> PROGRESS
+
         is LoadState.Error -> ERROR
     }
 

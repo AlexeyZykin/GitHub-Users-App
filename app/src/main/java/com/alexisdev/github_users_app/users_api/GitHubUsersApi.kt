@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface GitHubUsersApi {
     @GET("users")
     fun fetchUsers(
-        @Query("since") since: Int = 1,
+        @Query("since") since: Int = 0,
         @Query("per_page") perPage: Int = 30
     ): Single<List<UserDTO>>
 
